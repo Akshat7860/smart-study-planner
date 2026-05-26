@@ -1,0 +1,37 @@
+version: '3.8'
+
+# Services ka matlab hai hamare alag-alag containers (dabbe)
+services:
+
+  # 1. Database Container
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db  # Ye data ko save rakhega, taaki container delete hone par data delete na ho
+
+  # 2. Backend Container
+  backend:
+    image: smart-study-backend:latest
+    ports:
+      - "5000:5000"
+    environment:
+      # Yahan hum localhost ki jagah 'mongodb' likh rahe hain kyunki Docker apne aap isko dhoondh lega
+      - MONGO_URI=mongodb://mongodb:27017/smart-study-planner
+      - JWT_SECRET=super_secret_key_2026
+      - CLIENT_URL=http://localhost:5173
+    depends_on:
+      - mongodb  # Backend tab tak start nahi hoga jab tak Database ready na ho
+
+  # 3. Frontend Container
+  frontend:
+    image: smart-study-frontend:latest
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend  # Frontend tab tak start nahi hoga jab tak Backend ready na ho
+
+# Volumes define karna zaroori hai taaki database ka data hard drive par safe rahe
+volumes:
+  mongo_data:

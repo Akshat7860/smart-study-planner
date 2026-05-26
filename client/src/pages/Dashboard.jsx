@@ -78,7 +78,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: 'Subjects',        value: subjects.length,                  icon: '📚', color: 'text-brand-400' },
-          { label: 'Today's sessions',value: `${completedToday}/${todaySlots.length}`, icon: '✅', color: 'text-green-400' },
+          { label: "Today's sessions",value: `${completedToday}/${todaySlots.length}`, icon: '✅', color: 'text-green-400' },
           { label: 'Study time today',value: `${Math.round(totalMins / 60 * 10) / 10}h`, icon: '⏱️', color: 'text-sky-400' },
           { label: 'Longest streak',  value: `${user?.streak?.longest ?? 0}d`, icon: '🏆', color: 'text-amber-400' },
         ].map((s) => (
